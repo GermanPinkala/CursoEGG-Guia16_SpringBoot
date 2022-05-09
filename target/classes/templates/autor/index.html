@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragmentos/head :: head(Autores)"></head>
+
+<body>
+    <header th:replace="fragmentos/header :: header"></header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col"><a th:href="@{/autores/formulario}" class="btn btn-primary">Crear</a></div>
+            </div>
+            <div th:if="${exito}" th:text="${exito}" class="alert alert-success" role="alert"></div>
+            <div th:if="${error}" th:text="${error}" class="alert alert-danger" role="alert"></div>
+            <div th:if="${autores.isEmpty()}" class="alert alert-info" role="alert">
+                No existen autores
+            </div>
+            <div th:unless="${autores.isEmpty()}" class="row">
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Actualizar</th>
+                                <th scope="col">Borrar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="autor : ${autores}">
+                                <td th:text="${autor.nombre}"></td>
+                                <td><a th:href="@{/autores/formulario/__${autor.id}__}"
+                                        class="btn btn-warning">Actualizar</a></td>
+                                <td>
+                                    <form th:action="@{/autores/eliminar/__${autor.id}__}" method="POST">
+                                        <button class="btn btn-danger" type="submit">Eliminar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div th:insert="fragmentos/scripts :: scripts"></div>
+</body>
+
+</html>

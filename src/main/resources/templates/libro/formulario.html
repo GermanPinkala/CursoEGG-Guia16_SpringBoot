@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragmentos/head :: head('formulario libros')"></head>
+
+<body>
+    <header th:replace="fragmentos/header :: header"></header>
+    <main>
+        <div class="container">
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                <span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <form th:action="@{/libros/__${action}__}" th:object="${libro}" method="post" class="needs-validation" novalidate>
+                        <input type="hidden" th:field="*{id}">
+                        <div class="form-floating mt-3">
+                            <input type="text" th:field="*{isbn}" class="form-control" id="isbn" required>
+                            <label for="isbn">ISBN del libro</label>
+                            <div class="invalid-feedback">ISBN es requerido</div>
+                        </div>
+                        <div class="form-floating mt-3">
+                            <input type="text" th:field="*{titulo}" class="form-control" id="titulo" required>
+                            <label for="titulo">Título del libro</label>
+                            <div class="invalid-feedback">Título es requerido</div>
+                        </div>
+                        <div class="form-floating mt-3">
+                            <input type="number" min="0" max="2022" th:field="*{anio}" class="form-control" id="anio" required>
+                            <label for="anio">Año de edición</label>
+                            <div class="invalid-feedback">Año es requerido</div>
+                        </div>
+                        <div class="form-floating mt-3">
+                            <input type="number" min="0" max="1000" th:field="*{ejemplares}" class="form-control" id="ejemplares" required>
+                            <label for="ejemplares">Cantidad de ejemplares</label>
+                            <div class="invalid-feedback">Cantidad de ejemplares es requerido</div>
+                        </div>
+                        <div class="form-floating mt-3">
+                            <input type="number" min="0" max="1000" th:field="*{ejemplaresPrestados}"
+                                class="form-control" id="ejemplaresPrestados" required>
+                            <label for="ejemplaresPrestados">Ejemplares prestados</label>
+                            <div class="invalid-feedback">Ejemplares prestados es requerido</div>
+                        </div>
+                        <div class="form-floating mt-3">
+                            <input type="number" min="0" max="1000" th:field="*{ejemplaresRestantes}"
+                                class="form-control" id="ejemplaresRestantes" required>
+                            <label for="ejemplaresRestantes">Ejemplares restantes</label>
+                            <div class="invalid-feedback">Ejemplares restantes es requerido</div>
+                        </div>
+                        <div class="form-floating mt-3">
+                            <select th:field="*{autor}" id="autor" class="form-select" aria-label="Select autor"
+                                    required>
+                                <option selected value="">Autor</option>
+                                <option th:each="autor : ${autores}" th:text="${autor.nombre}"
+                                        th:value="${autor.id}"></option>
+                            </select>
+                            <label for="autor">Seleccionar autor</label>
+                            <div class="invalid-feedback">Autor es requerido</div>
+                        </div>
+                        <div class="form-floating mt-3">
+                            <select th:field="*{editorial}" id="editorial" class="form-select" aria-label="Select editorial"
+                                    required>
+                                <option selected value="">Editorial</option>
+                                <option th:each="editorial : ${editoriales}" th:text="${editorial.nombre}"
+                                        th:value="${editorial.id}"></option>
+                            </select>
+                            <label for="editorial">Seleccionar editorial</label>
+                            <div class="invalid-feedback">Editorial es requerido</div>
+                        </div>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-primary"
+                                th:text="${action == 'crear' ? 'Crear' : 'Actualizar'}"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer th:insert="fragmentos/scripts :: scripts">
+    </footer>
+
+</body>
+
+</html>
