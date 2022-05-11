@@ -10,12 +10,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import edu.egg.libreria.entidades.Usuario;
 import edu.egg.libreria.repositorios.RolRepositorio;
 import edu.egg.libreria.repositorios.UsuarioRepositorio;
 
 import static java.util.Collections.singletonList;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 public class UsuarioServicio implements UserDetailsService{
@@ -58,6 +62,14 @@ public class UsuarioServicio implements UserDetailsService{
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepositorio.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("No hay un usuario asociado con el email ingresado."));
         GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().getNombre());
+
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attributes.getRequest().getSession(true);
+
+        session.setAttribute("id", usuario.getId());
+        session.setAttribute("email", usuario.getEmail());
+        session.setAttribute("role", usuario.getRol().getNombre());
+
         return new org.springframework.security.core.userdetails.User(usuario.getEmail(), usuario.getContrasenia(), singletonList(authority));
     }
     

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="fragmentos/head :: head(Autores)"></head>
 
@@ -7,7 +7,7 @@
     <header th:replace="fragmentos/header :: header"></header>
     <main>
         <div class="container">
-            <div class="row">
+            <div class="row" sec:authorize="hasRole('ADMIN')">
                 <div class="col"><a th:href="@{/autores/formulario}" class="btn btn-primary">Crear</a></div>
             </div>
             <div th:if="${exito}" th:text="${exito}" class="alert alert-success" role="alert"></div>
@@ -21,16 +21,16 @@
                         <thead>
                             <tr>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Actualizar</th>
-                                <th scope="col">Borrar</th>
+                                <th sec:authorize="hasRole('ADMIN')" scope="col">Actualizar</th>
+                                <th sec:authorize="hasRole('ADMIN')" scope="col">Borrar</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="autor : ${autores}">
                                 <td th:text="${autor.nombre}"></td>
-                                <td><a th:href="@{/autores/formulario/__${autor.id}__}"
+                                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/autores/formulario/__${autor.id}__}"
                                         class="btn btn-warning">Actualizar</a></td>
-                                <td>
+                                <td sec:authorize="hasRole('ADMIN')">
                                     <form th:action="@{/autores/eliminar/__${autor.id}__}" method="POST">
                                         <button class="btn btn-danger" type="submit">Eliminar</button>
                                     </form>
