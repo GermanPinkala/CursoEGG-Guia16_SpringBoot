@@ -68,7 +68,7 @@ public class UsuarioServicio implements UserDetailsService{
 
         session.setAttribute("id", usuario.getId());
         session.setAttribute("email", usuario.getEmail());
-        session.setAttribute("role", usuario.getRol().getNombre());
+        session.setAttribute("rol", usuario.getRol().getNombre());
 
         return new org.springframework.security.core.userdetails.User(usuario.getEmail(), usuario.getContrasenia(), singletonList(authority));
     }

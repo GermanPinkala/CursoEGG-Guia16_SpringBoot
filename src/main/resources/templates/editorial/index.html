@@ -22,16 +22,17 @@
                         <thead>
                             <tr>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Actualizar</th>
-                                <th scope="col">Borrar</th>
+                                <th sec:authorize="hasRole('ADMIN')" scope="col">Actualizar</th>
+                                <th sec:authorize="hasRole('ADMIN')" scope="col">Borrar</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="editorial : ${editoriales}">
                                 <td th:text="${editorial.nombre}"></td>
-                                <td><a th:href="@{/editoriales/formulario/__${editorial.id}__}"
-                                        class="btn btn-warning">Actualizar</a></td>
-                                <td>
+                                <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/editoriales/formulario/__${editorial.id}__}"
+                                        class="btn btn-warning">Actualizar</a>
+                                </td>
+                                <td sec:authorize="hasRole('ADMIN')">
                                     <form th:action="@{/editoriales/eliminar/__${editorial.id}__}" method="POST">
                                         <button class="btn btn-danger" type="submit">Eliminar</button>
                                     </form>

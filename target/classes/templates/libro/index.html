@@ -12,8 +12,7 @@
                     Libros
                 </div>
             </div>
-            <div class="row mt-3 justify-content-end">
-                <!--Estilizá con este-->
+            <div class="row mt-3 justify-content-end" sec:authorize="hasRole('ADMIN')">
                 <div class="col-auto">
                     <a th:href="@{/libros/formulario}" class="btn btn-primary">Crear</a>
                 </div>
@@ -38,8 +37,8 @@
                                 <th scope="col">Ejemplares restantes</th>
                                 <th scope="col">Autor</th>
                                 <th scope="col">Editorial</th>
-                                <th scope="col">Actualizar</th>
-                                <th scope="col">Borrar</th>
+                                <th scope="col" sec:authorize="hasRole('ADMIN')">Actualizar</th>
+                                <th scope="col" sec:authorize="hasRole('ADMIN')">Borrar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,9 +51,11 @@
                                 <td th:text="${libro.ejemplaresRestantes}"></td>
                                 <td th:text="${libro.autor.nombre}"></td>
                                 <td th:text="${libro.editorial.nombre}"></td>
-                                <td><a th:href="@{/libros/formulario/__${libro.id}__}"
-                                        class="btn btn-warning">Actualizar</a></td>
-                                <td>
+                                <td sec:authorize="hasRole('ADMIN')">
+                                    <a th:href="@{/libros/formulario/__${libro.id}__}"
+                                        class="btn btn-warning">Actualizar</a>
+                                </td>
+                                <td sec:authorize="hasRole('ADMIN')">
                                     <form th:action="@{/libros/eliminar/__${libro.id}__}" method="POST">
                                         <button class="btn btn-danger" type="submit">Eliminar</button>
                                     </form>
