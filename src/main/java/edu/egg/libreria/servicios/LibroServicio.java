@@ -62,6 +62,7 @@ public class LibroServicio {
     @Transactional(readOnly = true)
     public List<Libro> obtenerTodos() {
         return libroRepositorio.findAll();
+        
     }
 
     @Transactional

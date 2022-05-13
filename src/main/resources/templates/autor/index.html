@@ -42,7 +42,14 @@
             </div>
         </div>
     </main>
-    <div th:insert="fragmentos/scripts :: scripts"></div>
+    <div th:replace="fragmentos/scripts :: scripts"></div>
+    
 </body>
+
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <span class="text-muted" th:text="${session.id != null} ? |${session.email} - ${session.rol}| : 'Egg Cooperation'"></span>
+    </div>
+</footer>
 
 </html>
