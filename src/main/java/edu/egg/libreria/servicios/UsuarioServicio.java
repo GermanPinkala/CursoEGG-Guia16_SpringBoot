@@ -30,6 +30,8 @@ public class UsuarioServicio implements UserDetailsService{
     private  BCryptPasswordEncoder codificador;
     @Autowired
     private  RolRepositorio rolRepositorio;
+    @Autowired
+    private EmailServicio emailServicio;
     
 
     public UsuarioServicio(UsuarioRepositorio usuarioRepositorio, BCryptPasswordEncoder codificador) {
@@ -55,6 +57,7 @@ public class UsuarioServicio implements UserDetailsService{
             }
         }
 
+        emailServicio.send(usuarioDto.getEmail());
         usuarioRepositorio.save(usuario);
     }
 

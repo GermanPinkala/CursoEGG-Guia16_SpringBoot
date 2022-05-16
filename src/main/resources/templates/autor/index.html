@@ -43,13 +43,9 @@
         </div>
     </main>
     <div th:replace="fragmentos/scripts :: scripts"></div>
-    
+    <footer th:replace="fragmentos/footer :: footer"></footer>
 </body>
 
-<footer class="footer mt-auto py-3 bg-light">
-    <div class="container">
-        <span class="text-muted" th:text="${session.id != null} ? |${session.email} - ${session.rol}| : 'Egg Cooperation'"></span>
-    </div>
-</footer>
+
 
 </html>
