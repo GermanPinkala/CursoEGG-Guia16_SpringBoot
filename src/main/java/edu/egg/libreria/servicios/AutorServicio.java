@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import edu.egg.libreria.entidades.Autor;
 import edu.egg.libreria.repositorios.AutorRepositorio;
@@ -15,23 +16,32 @@ public class AutorServicio {
     @Autowired
     private AutorRepositorio autorRepositorio;
 
+    @Autowired
+    private ImagenServicio imagenServicio;
+
     @Transactional
-    public void crear(Autor autorDto) {
+    public void crear(Autor autorDto, MultipartFile imagen) {
 
         if (autorRepositorio.existsByNombre(autorDto.getNombre())){
             throw new IllegalArgumentException("Ya existe un autor con ese nombre");
         }
         Autor autor = new Autor();
         autor.setNombre(autorDto.getNombre());
+        if (!imagen.isEmpty()){
+            autor.setImagen(imagenServicio.copy(imagen));
+        }
         autorRepositorio.save(autor);
     }
 
     
 
     @Transactional
-    public void actualizar(Autor autorDto) {
+    public void actualizar(Autor autorDto, MultipartFile imagen) {
         Autor autor = autorRepositorio.findById(autorDto.getId()).get();
         autor.setNombre(autorDto.getNombre());
+        if (!imagen.isEmpty()){
+            autor.setImagen(imagenServicio.copy(imagen));
+        }
         autorRepositorio.save(autor);
     }
 

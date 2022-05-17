@@ -10,14 +10,21 @@
             <div th:if="${error}" th:text="${error}" class="alert alert-danger" role="alert"></div>
             <div class="row">
                 <div class="col">
-                    <form th:action="@{/autores/__${action}__}" th:object="${autor}" method="post" class="needs-validation" novalidate>
+                    <form th:action="@{/autores/__${action}__}" th:object="${autor}" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
                         <input type="hidden" th:field="*{id}">
+
                         <div class="form-floating">
                             <input type="text" th:field="*{nombre}" class="form-control" id="nombre"
                                 placeholder="Pedro Gomez" required>
                             <label for="floatingInputValue">Nombre del Autor</label>
                             <div class="invalid-feedback">El nombre del autor es requerido</div>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="foto">Subir imagen</label>
+                            <input class="form-control mt-2" type="file" name="foto" accept="image/*">
+                        </div>
+
                         <button type="submit" class="btn btn-primary"
                             th:text="${action == 'crear' ? 'Crear' : 'Actualizar'}"></button>
                     </form>

@@ -20,6 +20,7 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th scope="col">Imagen</th>
                                 <th scope="col">Nombre</th>
                                 <th sec:authorize="hasRole('ADMIN')" scope="col">Actualizar</th>
                                 <th sec:authorize="hasRole('ADMIN')" scope="col">Borrar</th>
@@ -27,6 +28,9 @@
                         </thead>
                         <tbody>
                             <tr th:each="autor : ${autores}">
+                                <td><img class="rounded-circle"
+                                    th:src="${autor.imagen} ? @{/subidas/__${autor.imagen}__} : @{/subidas/default-image.png}"
+                                    height="40" width="40"></td>
                                 <td th:text="${autor.nombre}"></td>
                                 <td sec:authorize="hasRole('ADMIN')"><a th:href="@{/autores/formulario/__${autor.id}__}"
                                         class="btn btn-warning">Actualizar</a></td>

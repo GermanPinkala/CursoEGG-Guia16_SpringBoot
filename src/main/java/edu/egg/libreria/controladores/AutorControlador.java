@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
@@ -62,14 +64,15 @@ public class AutorControlador {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/crear")
-    public RedirectView crear(Autor autorDto, RedirectAttributes atributos) {
+    public RedirectView crear(Autor autorDto, @RequestParam(required = false) MultipartFile foto, RedirectAttributes atributos) {
         RedirectView redireccion = new RedirectView("/autores");
         
         try {
-            autorServicio.crear(autorDto);
+            autorServicio.crear(autorDto, foto);
             atributos.addFlashAttribute("exito", "El autor se ha almacenado.");
         } catch (IllegalArgumentException e) {
             atributos.addFlashAttribute("autor", autorDto);
+            //atributos.addFlashAttribute("foto", foto);
             atributos.addFlashAttribute("error", e.getMessage());
             redireccion.setUrl("/autores/formulario");
         }
@@ -88,9 +91,9 @@ public class AutorControlador {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/actualizar")
-    public RedirectView atualizar(Autor autorDto, RedirectAttributes atributos) {
+    public RedirectView atualizar(Autor autorDto, @RequestParam(required = false) MultipartFile foto, RedirectAttributes atributos) {
         RedirectView redireccion = new RedirectView("/autores");
-        autorServicio.actualizar(autorDto);
+        autorServicio.actualizar(autorDto, foto);
         atributos.addFlashAttribute("exito", "Autor modificado.");
         return redireccion;
     }
